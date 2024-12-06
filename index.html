@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Music App</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #282c34;
+      color: white;
+      text-align: center;
+    }
+
+    header {
+      background-color: #20232a;
+      padding: 1em;
+      font-size: 1.5em;
+    }
+
+    main {
+      padding: 2em;
+    }
+
+    .player {
+      margin-bottom: 2em;
+    }
+
+    .now-playing-img {
+      width: 200px;
+      height: 200px;
+      border-radius: 10px;
+      margin: 1em auto;
+    }
+
+    .playlist {
+      list-style: none;
+      padding: 0;
+    }
+
+    .playlist li {
+      background-color: #333;
+      margin: 0.5em auto;
+      padding: 0.5em;
+      cursor: pointer;
+      width: 50%;
+      border-radius: 5px;
+      transition: background-color 0.3s;
+    }
+
+    .playlist li:hover {
+      background-color: #444;
+    }
+
+    footer {
+      margin-top: 2em;
+      padding: 1em;
+      background-color: #20232a;
+    }
+
+    audio {
+      width: 100%;
+      max-width: 600px;
+      margin-top: 1em;
+    }
+
+    .search-bar {
+      padding: 0.5em;
+      margin-bottom: 1em;
+      width: 80%;
+      max-width: 400px;
+      background-color: #444;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 1em;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    My Music App
+  </header>
+
+  <main>
+    <!-- Search Bar Section -->
+    <section>
+      <input type="text" id="search-bar" class="search-bar" placeholder="Search for a song..." />
+    </section>
+
+    <!-- Now Playing Section -->
+    <section class="player">
+      <h2>Now Playing</h2>
+      <img id="now-playing-img" class="now-playing-img" src="" alt="Now Playing Image">
+      <p id="current-song">Select a song from the playlist</p>
+      <audio id="audio-player" controls>
+        <source id="audio-source" src="" type="audio/mpeg">
+        Your browser does not support the audio element.
+      </audio>
+    </section>
+
+    <!-- Playlist Section -->
+    <section>
+      <h2>Playlist1</h2>
+      <ul class="playlist" id="playlist">
+        <!-- Updated to use the correct path to songs and images -->
+        <li data-src="27-Marudaani - Sakkarakatti-MobCup.vip.mp3" data-img="C:\song\p14767515_sakkara132.jpg">🎵 Song 1</li>
+        <li data-src="C:\song\Donu Donu Donu-Downringtone.com.mp3" data-img="C:\song\20maari.jpg">🎵 Song 2</li>
+        <li data-src="C:\song\Maru Jenmam Eduthal Kooda Song-Downringtone.com.mp3" data-img="C:\song\download (1).jpeg">🎵 Song 3</li>
+      </ul>
+      
+    </section>
+  </main>
+
+  <footer>
+     HormanonyHub
+  </footer>
+
+  <script>
+    // Select elements
+    const audioPlayer = document.getElementById('audio-player');
+    const audioSource = document.getElementById('audio-source');
+    const currentSong = document.getElementById('current-song');
+    const nowPlayingImg = document.getElementById('now-playing-img');
+    const playlistItems = document.querySelectorAll('#playlist li');
+    const searchBar = document.getElementById('search-bar');
+
+    // Add click event to each playlist item
+    playlistItems.forEach(item => {
+      item.addEventListener('click', () => {
+        const songSrc = item.getAttribute('data-src');
+        const songName = item.textContent;
+        const songImg = item.getAttribute('data-img');
+
+        // Update the audio source
+        audioSource.src = songSrc;
+        audioPlayer.load(); // Reload the audio player
+        audioPlayer.play(); // Play the selected song
+
+        // Update the "Now Playing" section
+        currentSong.textContent = `Now Playing: ${songName}`;
+        nowPlayingImg.src = songImg; // Update the image
+      });
+    });
+
+    // Function to filter playlist based on search query
+    searchBar.addEventListener('input', function() {
+      const searchQuery = searchBar.value.toLowerCase();
+      
+      playlistItems.forEach(item => {
+        const songName = item.textContent.toLowerCase();
+        
+        if (songName.includes(searchQuery)) {
+          item.style.display = ''; // Show the song
+        } else {
+          item.style.display = 'none'; // Hide the song
+        }
+      });
+    });
+  </script>
+</body>
+</html>
